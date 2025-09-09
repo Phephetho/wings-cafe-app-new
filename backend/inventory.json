@@ -23,6 +23,14 @@
       "category": "Alcohol",
       "price": "30",
       "quantity": "6"
+    },
+    {
+      "id": 4,
+      "name": "Black label",
+      "description": "Beer",
+      "category": "Alcohol",
+      "price": "25",
+      "quantity": "3"
     }
   ],
   "transactions": [
