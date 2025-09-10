@@ -6,7 +6,7 @@
       "description": "Hot drink",
       "category": "Beverage",
       "price": "5",
-      "quantity": "10"
+      "quantity": "3"
     },
     {
       "id": 2,
@@ -14,23 +14,15 @@
       "description": "Tea",
       "category": "Beverage",
       "price": "7",
-      "quantity": "12-9"
-    },
-    {
-      "id": 3,
-      "name": "Savanna",
-      "description": "Beer",
-      "category": "Alcohol",
-      "price": "30",
-      "quantity": "6"
-    },
-    {
-      "id": 4,
-      "name": "Black label",
-      "description": "Beer",
-      "category": "Alcohol",
-      "price": "25",
       "quantity": "3"
+    },
+    {
+      "id": 5,
+      "name": "Tomato",
+      "description": "Fresh ",
+      "category": "Vegetable",
+      "price": "3",
+      "quantity": "2"
     }
   ],
   "transactions": [
@@ -39,6 +31,24 @@
       "productId": 2,
       "amount": -9,
       "date": "2025-09-09T21:51:35.509Z"
+    },
+    {
+      "id": 2,
+      "productId": 1,
+      "amount": -7,
+      "date": "2025-09-09T23:44:05.573Z"
+    },
+    {
+      "id": 3,
+      "productId": 3,
+      "amount": -6,
+      "date": "2025-09-10T00:52:55.856Z"
+    },
+    {
+      "id": 4,
+      "productId": 5,
+      "amount": -18,
+      "date": "2025-09-10T08:36:24.599Z"
     }
   ]
 }
