@@ -8,7 +8,7 @@ function App() {
   const [form, setForm] = useState({ id: '', name: '', description: '', category: '', price: '', quantity: '' });
   const [transactionForm, setTransactionForm] = useState({ productId: '', amount: '' });
   const [error, setError] = useState('');
-  const BACKEND_URL = 'https://wings-cafe-backend.onrender.com';
+  const BACKEND_URL = 'http://localhost:3002';
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -99,7 +99,7 @@ function App() {
   const handleTransaction = async () => {
     try {
       if (!transactionForm.productId || isNaN(parseInt(transactionForm.amount))) {
-        setError('Fill valid product ID and amount');
+        setError('Select a product and enter a valid amount');
         return;
       }
       const res = await fetch(`${BACKEND_URL}/transactions`, {
@@ -127,27 +127,44 @@ function App() {
 
       <section>
         <h2>Dashboard</h2>
-        <p>Products: {products.length}</p>
-        <p>Low Stock: {lowStock.length}</p>
-        <p>Transactions: {transactions.length}</p>
-        <p>Sales/Customer: Use transactions</p>
+        <div>
+          <p>Products: {products.length}</p>
+          <p>Low Stock: {lowStock.length}</p>
+          <p>Transactions: {transactions.length}</p>
+          <p>Sales/Customer: Use transactions</p>
+        </div>
       </section>
 
       <section>
         <h2>Products (Inventory)</h2>
         <input name="name" placeholder="Name" value={form.name} onChange={handleFormChange} />
-        <input name="description" placeholder="Desc" value={form.description} onChange={handleFormChange} />
-        <input name="category" placeholder="Cat" value={form.category} onChange={handleFormChange} />
+        <input name="description" placeholder="Description" value={form.description} onChange={handleFormChange} />
+        <input name="category" placeholder="Category" value={form.category} onChange={handleFormChange} />
         <input name="price" placeholder="Price" value={form.price} onChange={handleFormChange} />
-        <input name="quantity" placeholder="Qty" value={form.quantity} onChange={handleFormChange} />
-        <button onClick={handleAddOrUpdate}>{form.id ? 'Update' : 'Add'}</button>
+        <input name="quantity" placeholder="Quantity" value={form.quantity} onChange={handleFormChange} />
+        <button onClick={handleAddOrUpdate}>{form.id ? 'Update Product' : 'Add Product'}</button>
 
         <table>
-          <thead><tr><th>ID</th><th>Name</th><th>Desc</th><th>Cat</th><th>Price</th><th>Qty</th><th>Actions</th></tr></thead>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
           <tbody>
             {products.map(p => (
               <tr key={p.id}>
-                <td>{p.id}</td><td>{p.name}</td><td>{p.description}</td><td>{p.category}</td><td>{p.price}</td><td>{p.quantity}</td>
+                <td>{p.id}</td>
+                <td>{p.name}</td>
+                <td>{p.description}</td>
+                <td>{p.category}</td>
+                <td>{p.price}</td>
+                <td>{p.quantity}</td>
                 <td>
                   <button onClick={() => handleEdit(p)}>Edit</button>
                   <button onClick={() => handleDelete(p.id)}>Delete</button>
@@ -160,22 +177,31 @@ function App() {
 
       <section>
         <h2>Transactions (Sales/Inventory)</h2>
-        <input name="productId" placeholder="Product ID" value={transactionForm.productId} onChange={handleTransactionChange} />
+        <select name="productId" value={transactionForm.productId} onChange={handleTransactionChange}>
+          <option value="">Select Product</option>
+          {products.map(p => (
+            <option key={p.id} value={p.id}>{p.name} (ID: {p.id})</option>
+          ))}
+        </select>
         <input name="amount" placeholder="Amount (+ add, - sell)" value={transactionForm.amount} onChange={handleTransactionChange} />
-        <button onClick={handleTransaction}>Record</button>
+        <button onClick={handleTransaction}>Record Transaction</button>
       </section>
 
       <section>
         <h2>Reporting</h2>
         <ul>
-          {transactions.map(t => <li key={t.id}>Product {t.productId}: {t.amount} on {t.date}</li>)}
+          {transactions.map(t => (
+            <li key={t.id}>Product {t.productId}: {t.amount} on {t.date}</li>
+          ))}
         </ul>
       </section>
 
       <section>
         <h2>Low Stock</h2>
         <ul>
-          {lowStock.map(p => <li key={p.id}>{p.name}: {p.quantity}</li>)}
+          {lowStock.map(p => (
+            <li key={p.id}>{p.name}: {p.quantity}</li>
+          ))}
         </ul>
       </section>
     </div>

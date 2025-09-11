@@ -1,62 +1,258 @@
+/* App container - Centered, modern layout with gradient background */
 .app {
-    font-family: Arial;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 20px;
-    max-width: 800px;
-    margin: auto;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
 }
 
+/* Main heading - Bold, centered, modern */
 h1 {
+    color: #2c3e50;
     text-align: center;
-    color: blue;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
 }
 
-section {
-    margin: 20px 0;
-}
-
+/* Section headings - Clean, with accent underline */
 h2 {
-    color: green;
+    color: #2980b9;
+    font-size: 1.8em;
+    margin: 30px 0 15px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid #3498db;
+    font-weight: 600;
 }
 
-input {
-    margin: 5px;
-    padding: 5px;
+/* Dashboard - Card-like stats with hover effects */
+section:nth-child(1) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    margin-bottom: 40px;
 }
 
-button {
-    background: blue;
+section:nth-child(1) div {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+}
+
+section:nth-child(1) p {
+    background: #3498db;
     color: white;
-    padding: 5px;
-    margin: 5px;
-    cursor: pointer;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 1.2em;
+    font-weight: 500;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
 }
 
+section:nth-child(1) p:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* General Section Styling - Clean, card-like */
+section {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    margin-bottom: 40px;
+}
+
+/* Form Inputs - Modern, smooth focus */
+input {
+    margin: 10px 5px;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1em;
+    width: calc(100% - 24px);
+    max-width: 250px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus {
+    border-color: #2980b9;
+    outline: none;
+    box-shadow: 0 0 8px rgba(41, 128, 185, 0.4);
+}
+
+/* Buttons - Vibrant, with hover animation */
+button {
+    background: #27ae60;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    margin: 5px;
+}
+
+button:hover {
+    background: #219653;
+    transform: translateY(-3px);
+}
+
+/* Table - Clean, responsive, hover effects */
 table {
     border-collapse: collapse;
     width: 100%;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 0.95em;
 }
 
 th,
 td {
-    border: 1px solid gray;
-    padding: 8px;
+    border: 1px solid #e0e0e0;
+    padding: 14px;
     text-align: left;
 }
 
 th {
-    background: lightblue;
+    background: #3498db;
+    color: white;
+    font-weight: 600;
 }
 
+tr:nth-child(even) {
+    background: #f9fafb;
+}
+
+tr:hover {
+    background: #e6f3ff;
+}
+
+/* Lists - Clean, modern */
 ul {
     list-style: none;
     padding: 0;
 }
 
 li {
-    margin: 5px 0;
+    background: #f1f5f9;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 6px;
+    font-size: 1em;
+    transition: background 0.3s ease;
 }
 
-p {
-    color: red;
+li:hover {
+    background: #e2e8f0;
+}
+
+/* Error Message - Prominent, styled */
+p[style*="color: red"] {
+    background: #fee2e2;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #ef4444;
     text-align: center;
+    font-weight: 500;
+    margin: 10px 0;
+}
+
+/* Mobile Responsiveness - Phones (<768px) */
+@media (max-width: 768px) {
+    .app {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    input {
+        width: 100%;
+        max-width: none;
+    }
+
+    button {
+        width: 100%;
+        margin: 8px 0;
+    }
+
+    /* Dashboard - Stack cards vertically */
+    section:nth-child(1) div {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    section:nth-child(1) p {
+        font-size: 1em;
+        padding: 15px;
+    }
+
+    /* Table - Scrollable on mobile */
+    table {
+        font-size: 0.85em;
+        overflow-x: auto;
+        display: block;
+        white-space: nowrap;
+    }
+
+    th,
+    td {
+        padding: 10px 6px;
+    }
+
+    /* Sections - Compact */
+    section {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    ul li {
+        font-size: 0.9em;
+    }
+}
+
+/* Tablet Responsiveness (769px–1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .app {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 2.2em;
+    }
+
+    h2 {
+        font-size: 1.6em;
+    }
+
+    section:nth-child(1) div {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    table {
+        font-size: 0.9em;
+    }
 }
