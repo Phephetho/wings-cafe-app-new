@@ -17,12 +17,20 @@
       "quantity": "3"
     },
     {
-      "id": 5,
+      "id": 4,
+      "name": "Avacado",
+      "description": "Fresh",
+      "category": "Fruit",
+      "price": "8",
+      "quantity": "45"
+    },
+    {
+      "id": 4,
       "name": "Tomato",
-      "description": "Fresh ",
-      "category": "Vegetable",
+      "description": "Fresh",
+      "category": "vegetable",
       "price": "3",
-      "quantity": "2"
+      "quantity": "50"
     }
   ],
   "transactions": [
@@ -49,6 +57,24 @@
       "productId": 5,
       "amount": -18,
       "date": "2025-09-10T08:36:24.599Z"
+    },
+    {
+      "id": 5,
+      "productId": 4,
+      "amount": -26,
+      "date": "2025-09-10T21:29:17.435Z"
+    },
+    {
+      "id": 6,
+      "productId": 5,
+      "amount": 20,
+      "date": "2025-09-10T21:50:09.062Z"
+    },
+    {
+      "id": 7,
+      "productId": 4,
+      "amount": 5,
+      "date": "2025-09-10T21:51:34.312Z"
     }
   ]
 }

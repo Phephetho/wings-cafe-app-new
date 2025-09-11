@@ -52,7 +52,7 @@ function App() {
 
   const handleAddOrUpdate = async () => {
     try {
-      if (!form.name || !form.description || !form.category || isNaN(form.price) || isNaN(form.quantity)) {
+      if (!form.name || !form.description || !form.category || isNaN(parseFloat(form.price)) || isNaN(parseInt(form.quantity))) {
         setError('Fill all fields with valid numbers');
         return;
       }
@@ -61,14 +61,20 @@ function App() {
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form)
+        body: JSON.stringify({
+          name: form.name,
+          description: form.description,
+          category: form.category,
+          price: parseFloat(form.price),
+          quantity: parseInt(form.quantity)
+        })
       });
-      if (!res.ok) throw new Error('Add/Update failed');
+      if (!res.ok) throw new Error('Action failed');
       fetchProducts();
       setForm({ id: '', name: '', description: '', category: '', price: '', quantity: '' });
       setError('');
     } catch (err) {
-      setError('Error adding/updating product');
+      setError('Error in add/update');
     }
   };
 
@@ -92,14 +98,17 @@ function App() {
 
   const handleTransaction = async () => {
     try {
-      if (!transactionForm.productId || isNaN(transactionForm.amount)) {
+      if (!transactionForm.productId || isNaN(parseInt(transactionForm.amount))) {
         setError('Fill valid product ID and amount');
         return;
       }
       const res = await fetch(`${BACKEND_URL}/transactions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(transactionForm)
+        body: JSON.stringify({
+          productId: parseInt(transactionForm.productId),
+          amount: parseInt(transactionForm.amount)
+        })
       });
       if (!res.ok) throw new Error('Transaction failed');
       fetchProducts();
@@ -107,7 +116,7 @@ function App() {
       setTransactionForm({ productId: '', amount: '' });
       setError('');
     } catch (err) {
-      setError('Error recording transaction');
+      setError('Error in transaction');
     }
   };
 
