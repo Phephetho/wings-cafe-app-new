@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/wings-cafe-app-new/static/css/main.5c889fa8.css",
-    "main.js": "/wings-cafe-app-new/static/js/main.5e01de87.js",
+    "main.css": "/wings-cafe-app-new/static/css/main.1e5be8a2.css",
+    "main.js": "/wings-cafe-app-new/static/js/main.43b09c25.js",
     "static/js/453.670e15c7.chunk.js": "/wings-cafe-app-new/static/js/453.670e15c7.chunk.js",
     "index.html": "/wings-cafe-app-new/index.html",
-    "main.5c889fa8.css.map": "/wings-cafe-app-new/static/css/main.5c889fa8.css.map",
-    "main.5e01de87.js.map": "/wings-cafe-app-new/static/js/main.5e01de87.js.map",
+    "main.1e5be8a2.css.map": "/wings-cafe-app-new/static/css/main.1e5be8a2.css.map",
+    "main.43b09c25.js.map": "/wings-cafe-app-new/static/js/main.43b09c25.js.map",
     "453.670e15c7.chunk.js.map": "/wings-cafe-app-new/static/js/453.670e15c7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5c889fa8.css",
-    "static/js/main.5e01de87.js"
+    "static/css/main.1e5be8a2.css",
+    "static/js/main.43b09c25.js"
   ]
 }
