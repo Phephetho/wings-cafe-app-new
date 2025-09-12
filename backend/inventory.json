@@ -39,6 +39,14 @@
       "category": "Energy drink",
       "price": 19,
       "quantity": 15
+    },
+    {
+      "id": 6,
+      "name": "Onion",
+      "description": "Fresh",
+      "category": "Vegetable",
+      "price": 4,
+      "quantity": 30
     }
   ],
   "transactions": [

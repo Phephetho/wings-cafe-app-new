@@ -1,6 +1,5 @@
 {
-  "start": "node server.js",
-  "name": "backend",
+  "name": "wings-cafe-backend",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
