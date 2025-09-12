@@ -8,7 +8,7 @@ function App() {
   const [form, setForm] = useState({ id: '', name: '', description: '', category: '', price: '', quantity: '' });
   const [transactionForm, setTransactionForm] = useState({ productId: '', amount: '' });
   const [error, setError] = useState('');
-  const BACKEND_URL = 'http://localhost:3002';
+  const BACKEND_URL = 'http://localhost:3001';
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -99,7 +99,7 @@ function App() {
   const handleTransaction = async () => {
     try {
       if (!transactionForm.productId || isNaN(parseInt(transactionForm.amount))) {
-        setError('Select a product and enter a valid amount');
+        setError('Enter a valid Product ID and amount');
         return;
       }
       const res = await fetch(`${BACKEND_URL}/transactions`, {
@@ -118,6 +118,12 @@ function App() {
     } catch (err) {
       setError('Error in transaction');
     }
+  };
+
+  // Helper to get product name by ID
+  const getProductName = (productId) => {
+    const product = products.find(p => p.id === parseInt(productId));
+    return product ? product.name : `Unknown (ID: ${productId})`;
   };
 
   return (
@@ -177,13 +183,20 @@ function App() {
 
       <section>
         <h2>Transactions (Sales/Inventory)</h2>
-        <select name="productId" value={transactionForm.productId} onChange={handleTransactionChange}>
-          <option value="">Select Product</option>
-          {products.map(p => (
-            <option key={p.id} value={p.id}>{p.name} (ID: {p.id})</option>
-          ))}
-        </select>
-        <input name="amount" placeholder="Amount (+ add, - sell)" value={transactionForm.amount} onChange={handleTransactionChange} />
+        <input
+          type="number"
+          name="productId"
+          placeholder="Product ID"
+          value={transactionForm.productId}
+          onChange={handleTransactionChange}
+          min="1"
+        />
+        <input
+          name="amount"
+          placeholder="Amount (+ add, - sell)"
+          value={transactionForm.amount}
+          onChange={handleTransactionChange}
+        />
         <button onClick={handleTransaction}>Record Transaction</button>
       </section>
 
@@ -191,7 +204,7 @@ function App() {
         <h2>Reporting</h2>
         <ul>
           {transactions.map(t => (
-            <li key={t.id}>Product {t.productId}: {t.amount} on {t.date}</li>
+            <li key={t.id}>{getProductName(t.productId)}: {t.amount} on {t.date}</li>
           ))}
         </ul>
       </section>
