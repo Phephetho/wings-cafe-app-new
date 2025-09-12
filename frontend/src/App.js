@@ -8,7 +8,7 @@ function App() {
   const [form, setForm] = useState({ id: '', name: '', description: '', category: '', price: '', quantity: '' });
   const [transactionForm, setTransactionForm] = useState({ productId: '', amount: '' });
   const [error, setError] = useState('');
-  const BACKEND_URL = 'http://localhost:3001';
+  const BACKEND_URL = 'https://wings-cafe-backend.vercel.app'; // Replace with your actual Vercel URL
   const fetchProducts = useCallback(async () => {
     try {
       const res = await fetch(`${BACKEND_URL}/products`);
