@@ -22,7 +22,7 @@
       "description": "Fresh",
       "category": "Fruit",
       "price": "8",
-      "quantity": "45"
+      "quantity": "45-20"
     },
     {
       "id": 4,
@@ -31,6 +31,14 @@
       "category": "vegetable",
       "price": "3",
       "quantity": "50"
+    },
+    {
+      "id": 5,
+      "name": "Redbull",
+      "description": "cold",
+      "category": "Energy drink",
+      "price": 19,
+      "quantity": 15
     }
   ],
   "transactions": [
@@ -75,6 +83,18 @@
       "productId": 4,
       "amount": 5,
       "date": "2025-09-10T21:51:34.312Z"
+    },
+    {
+      "id": 8,
+      "productId": 5,
+      "amount": -5,
+      "date": "2025-09-12T00:07:45.015Z"
+    },
+    {
+      "id": 9,
+      "productId": 4,
+      "amount": -20,
+      "date": "2025-09-12T00:08:16.145Z"
     }
   ]
 }

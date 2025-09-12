@@ -1,104 +1,114 @@
 const express = require('express');
+const fs = require('fs');
 const cors = require('cors');
-const fs = require('fs').promises;
 const app = express();
-app.use(cors());
+const port = 3001;
 app.use(express.json());
-const port = process.env.PORT || 3002; // Use 3002 to avoid conflicts
+app.use(cors());
 
-// Load and save products to JSON
-async function loadProducts() {
+const dbFile = 'inventory.json';
+
+// Ensure file exists
+if (!fs.existsSync(dbFile)) {
+  fs.writeFileSync(dbFile, JSON.stringify({ products: [], transactions: [] }, null, 2));
+}
+
+function readDB() {
   try {
-    const data = await fs.readFile('products.json', 'utf8');
-    return JSON.parse(data);
-  } catch (error) {
-    return [];
+    const data = fs.readFileSync(dbFile, 'utf8');
+    const parsed = JSON.parse(data);
+    return parsed || { products: [], transactions: [] };
+  } catch (err) {
+    console.error('Error reading DB:', err);
+    return { products: [], transactions: [] };
   }
 }
 
-async function saveProducts(products) {
-  await fs.writeFile('products.json', JSON.stringify(products, null, 2));
+function writeDB(data) {
+  try {
+    fs.writeFileSync(dbFile, JSON.stringify(data, null, 2));
+  } catch (err) {
+    console.error('Error writing DB:', err);
+  }
 }
 
-// Get next available ID
-async function getNextId() {
-  const products = await loadProducts();
-  return products.length ? Math.max(...products.map(p => p.id)) + 1 : 1;
-}
-
-// Routes
-app.get('/products', async (req, res) => {
-  const products = await loadProducts();
-  res.json(products);
+app.get('/products', (req, res) => {
+  const db = readDB();
+  res.json(db.products || []);
 });
 
-app.post('/products', async (req, res) => {
-  const products = await loadProducts();
-  const newProduct = { id: await getNextId(), ...req.body };
-  products.push(newProduct);
-  await saveProducts(products);
+app.post('/products', (req, res) => {
+  const db = readDB();
+  const newProduct = {
+    id: db.products.length + 1,
+    name: req.body.name || '',
+    description: req.body.description || '',
+    category: req.body.category || '',
+    price: parseFloat(req.body.price) || 0,
+    quantity: parseInt(req.body.quantity) || 0
+  };
+  db.products.push(newProduct);
+  writeDB(db);
   res.json(newProduct);
 });
 
-app.put('/products/:id', async (req, res) => {
-  const products = await loadProducts();
+app.put('/products/:id', (req, res) => {
+  const db = readDB();
   const id = parseInt(req.params.id);
-  const index = products.findIndex(p => p.id === id);
-  if (index !== -1) {
-    products[index] = { id, ...req.body };
-    await saveProducts(products);
-    res.json(products[index]);
+  const product = db.products.find(p => p.id === id);
+  if (product) {
+    product.name = req.body.name || product.name;
+    product.description = req.body.description || product.description;
+    product.category = req.body.category || product.category;
+    product.price = parseFloat(req.body.price) || product.price;
+    product.quantity = parseInt(req.body.quantity) || product.quantity;
+    writeDB(db);
+    res.json(product);
   } else {
     res.status(404).json({ error: 'Product not found' });
   }
 });
 
-app.delete('/products/:id', async (req, res) => {
-  const products = await loadProducts();
+app.delete('/products/:id', (req, res) => {
+  const db = readDB();
   const id = parseInt(req.params.id);
-  const filtered = products.filter(p => p.id !== id);
-  await saveProducts(filtered);
+  db.products = db.products.filter(p => p.id !== id);
+  writeDB(db);
   res.json({ success: true });
 });
 
-app.post('/transactions', async (req, res) => {
-  const products = await loadProducts();
-  const { productId, amount } = req.body;
-  const id = parseInt(productId);
-  const index = products.findIndex(p => p.id === id);
-  if (index !== -1 && !isNaN(amount)) {
-    products[index].quantity += parseInt(amount);
-    await saveProducts(products);
-    const transactions = await loadTransactions();
-    transactions.push({ id: transactions.length + 1, productId: id, amount, date: new Date().toISOString() });
-    await saveTransactions(transactions);
-    res.json({ success: true });
+app.post('/transactions', (req, res) => {
+  const db = readDB();
+  const productId = parseInt(req.body.productId);
+  const amount = parseInt(req.body.amount);
+  const product = db.products.find(p => p.id === productId);
+  if (product) {
+    product.quantity += amount;
+    if (product.quantity < 0) product.quantity = 0;
+    db.transactions.push({
+      id: db.transactions.length + 1,
+      productId,
+      amount,
+      date: new Date().toISOString()
+    });
+    writeDB(db);
+    res.json(product);
   } else {
-    res.status(400).json({ error: 'Invalid product ID or amount' });
+    res.status(404).json({ error: 'Product not found' });
   }
 });
 
-async function loadTransactions() {
-  try {
-    const data = await fs.readFile('transactions.json', 'utf8');
-    return JSON.parse(data);
-  } catch (error) {
-    return [];
-  }
-}
-
-async function saveTransactions(transactions) {
-  await fs.writeFile('transactions.json', JSON.stringify(transactions, null, 2));
-}
-
-app.get('/reports', async (req, res) => {
-  const transactions = await loadTransactions();
-  res.json(transactions);
+app.get('/low-stock', (req, res) => {
+  const db = readDB();
+  const low = db.products.filter(p => p.quantity < 5);
+  res.json(low);
 });
 
-app.get('/low-stock', async (req, res) => {
-  const products = await loadProducts();
-  res.json(products.filter(p => p.quantity < 5));
+app.get('/reports', (req, res) => {
+  const db = readDB();
+  res.json(db.transactions || []);
 });
 
-app.listen(port, () => console.log(`Brain running on port ${port}`));
+app.listen(port, () => {
+  console.log(`Brain running on port ${port}`);
+});
