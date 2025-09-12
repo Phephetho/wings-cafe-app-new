@@ -8,7 +8,7 @@ function App() {
   const [form, setForm] = useState({ id: '', name: '', description: '', category: '', price: '', quantity: '' });
   const [transactionForm, setTransactionForm] = useState({ productId: '', amount: '' });
   const [error, setError] = useState('');
-  const BACKEND_URL = 'https://wings-cafe-backend.onrender.com';
+  const BACKEND_URL = 'http://localhost:3001';
   const fetchProducts = useCallback(async () => {
     try {
       const res = await fetch(`${BACKEND_URL}/products`);
